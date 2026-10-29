@@ -21,6 +21,14 @@ p.style.color = 'lightgray';
 const div = document.getElementById('photo');
 div.insertBefore(p, img.nextElementSibling);
 
+const loopButton = document.createElement('button');
+loopButton.textContent = 'ループ再生ボタン';
+div.appendChild(loopButton);
+
+// const stopButton = document.createElement('button');
+// stopButton.textContent = '停止ボタン';
+// div.appendChild(stopButton);
+
 function setImage() {
   img.src = list[imgN];
   p.textContent = `${imgN + 1} / ${list.length}`;
@@ -32,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let  imgN = 0;
+
+let autoplay = false;
 
 rightArrow.addEventListener('click', () => {
   imgN += 1;
@@ -59,3 +69,39 @@ leftArrow.addEventListener('click', () => {
   setImage();
   console.log(imgN);
 });
+
+loopButton.addEventListener('click', () => {
+  if (autoplay == false) {
+    loopButton.textContent = '停止';
+    autoplay = setInterval(() => {
+      imgN += 1;
+      if (imgN >= list.length) {
+        imgN = 0;
+      }
+      setImage();
+    }, 1000);
+  } else {
+    clearInterval(autoplay);
+    autoplay = false;
+    loopButton.textContent = 'ループ再生ボタン';
+  }
+});
+
+// loopButton.addEventListener('click', () => {
+//   if (autoplay == false) {
+//     loopButton.textContent = '無効';
+//     autoplay = setInterval(() => {
+//       imgN += 1;
+//         if (imgN >= list.length) {
+//           imgN = 0;
+//         };
+//         setImage();
+//     }, 500);
+//   }  
+// });
+
+//stopButton.addEventListener('click', () => {
+  //clearInterval(autoplay);
+  //autoplay = false;
+  //loopButton.textContent = 'ループ再生ボタン';
+//});
